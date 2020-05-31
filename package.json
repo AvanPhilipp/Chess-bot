@@ -1,0 +1,19 @@
+{
+  "name": "chess-bot",
+  "version": "0.1.0",
+  "description": "FIrst discord chess bot for fun and for test",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha || true"
+  },
+  "author": "fealoce",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.2.0"
+  }
+}
