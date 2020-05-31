@@ -7,7 +7,7 @@ console.log("Game starts");
 
 module.exports = {
 init: function(){
-    console.log("init(); called");
+    // console.log("init(); called");
     return 1;
 },
 
@@ -103,13 +103,96 @@ FENconverter: function (FENdata){
     if(isNaN(GAME.moves))
         throw new Error("Input not correct. Fullmoves must be an integer: " + GAME.moves);
 
-    // console.log(GAME);
     // console.log("FEN parsed");
+    this.getPieces(GAME);
+    // console.log(GAME);
     return GAME;
 },
 
-moveCalc: function(){
+getPieces: function(GAME){
+    GAME.whitePieces = [];
+    GAME.blackPieces = [];
+    GAME.table.forEach((rank, x_index)=>{
+        rank.forEach((piece,y_index)=>{
+            switch (piece) {
+                case "K":
+                    GAME.whitePieces.push({piece: "K", x: x_index,y: y_index});
+                    break;
+                case "Q":
+                    GAME.whitePieces.push({piece: "Q", x: x_index,y: y_index});
+                    break;
+                case "B":
+                    GAME.whitePieces.push({piece: "B", x: x_index,y: y_index});
+                    break;
+                case "N":
+                    GAME.whitePieces.push({piece: "N", x: x_index,y: y_index});
+                    break;
+                case "R":
+                    GAME.whitePieces.push({piece: "R", x: x_index,y: y_index});
+                    break;
+                case "P":
+                    GAME.whitePieces.push({piece: "P", x: x_index,y: y_index});
+                    break;
+                case "k":
+                    GAME.blackPieces.push({piece: "k", x: x_index,y: y_index});
+                    break;
+                case "q":
+                    GAME.blackPieces.push({piece: "q", x: x_index,y: y_index});
+                    break;
+                case "b":
+                    GAME.blackPieces.push({piece: "b", x: x_index,y: y_index});
+                    break;
+                case "n":
+                    GAME.blackPieces.push({piece: "n", x: x_index,y: y_index});
+                    break;
+                case "r":
+                    GAME.blackPieces.push({piece: "r", x: x_index,y: y_index});
+                    break;
+                case "p":
+                    GAME.blackPieces.push({piece: "p", x: x_index,y: y_index});
+                    break;
+                case "e":
+                    break;
+                default:
+                    throw new Error("Unknown Piece");
+            }
+        });
+    });
+    return GAME;
+},
 
+moveCalc: function(moveString){
+    const moveArgs = moveString.split('');
+    // console.log(moveArgs);
+    switch (moveArgs[0]) {
+        case "K":
+            // console.log(moveArgs);
+
+            break;
+        case "Q":
+            // console.log(moveArgs);
+            
+            break;
+        case "R":
+            // console.log(moveArgs);
+            
+            break;
+        case "N":
+            // console.log(moveArgs);
+            
+            break;
+        case "B":
+            // console.log(moveArgs);
+            
+            break;
+        case "O":
+            // console.log(moveArgs);
+            
+            break;
+        default:
+            // console.log(moveArgs);
+            break;
+    }
 },
 
 displayBoard: function(FEN){

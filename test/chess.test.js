@@ -1,12 +1,17 @@
 const assert = require('chai').assert;
-const FENconverter = require('../chess').FENconverter;
-const init = require('../chess').init;
+
+const chess = require('../chess');
+// const FENconverter = require('../chess').FENconverter;
+// const init = require('../chess').init;
+// const moveCalc = require('../chess').moveCalc;
+
 const FENStrings = require('./test.config').FENStrings;
+const moveStrings = require('./test.config').moves;
 
 function testFENObjects(FENString) {
     let GAME;
     before("creating valid GAME object",()=>{
-        GAME = FENconverter(FENString);
+        GAME = chess.FENconverter(FENString);
     });
     it('should have a 8x8 board',()=>{
         assert.exists(GAME.table);
@@ -39,84 +44,112 @@ function testFENObjects(FENString) {
     it("should count the moves",()=>{
         assert.isNumber(GAME.moves);
     });
+    it("should find all the pieces on the board",()=>{
+        const testGame = chess.getPieces(GAME);
+        assert.exists(testGame);
+        assert.equal(testGame.whitePieces.length, 16);
+        assert.equal(testGame.blackPieces.length, 16);
+    });
 }
 
 
 describe("Chess",()=>{
     describe("init()", ()=>{
         it("should return 1", ()=>{
-            const result = init();
+            const result = chess.init();
             assert.equal(result, 1);
         });
     });
 
-    describe("FENconverter()",()=>{
+    describe("FENconverter(FEN)",()=>{
         describe("game object validation", ()=>{
             FENStrings.forEach(FENstring => {
                 testFENObjects(FENstring);
             });
         });
         it("sould accept starting position", ()=>{
-            const GAME = FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            const GAME = chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             assert.isObject(GAME);
         });
         it("sould accept no castling option", ()=>{
-            const GAME = FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1");
+            const GAME = chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1");
             assert.isObject(GAME);
         });
         it("sould accept en passat", ()=>{
-            const GAME = FENconverter("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+            const GAME = chess.FENconverter("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
             assert.isObject(GAME);
         });
         it("sould accept in-progress games", ()=>{
-            const GAME = FENconverter("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2");
+            const GAME = chess.FENconverter("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2");
             assert.isObject(GAME);
         });
         it("sould accept turns of black", ()=>{
-            const GAME = FENconverter("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
+            const GAME = chess.FENconverter("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2");
             assert.isObject(GAME);
         });
         describe("error checks", ()=>{
             it("sould throw error on malformed FEN", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0")
                 }, /Input not correct. 6 arguments expected, recived \d/);
             });
             it("sould throw error for too much ranks", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/RNBQKBNR w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/RNBQKBNR w KQkq - 0 1")
                 }, /Input not correct. Incorrect number of ranks: \d/);
             });
             it("sould throw error for too few ranks", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP w KQkq - 0 1")
                 }, /Input not correct. Incorrect number of ranks: \d/);
             });
             it("sould throw error for too much files", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB w KQkq - 0 1")
                 }, /Input not correct. Incorrect number of file: \d/);
             });
             it("sould throw error for too few files", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNRQQQ w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNRQQQ w KQkq - 0 1")
                 }, /Input not correct. Incorrect number of file: \d/);
             });
 
             it("sould throw error for invalid players", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR c KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR c KQkq - 0 1")
                 }, /Input not correct. Unknown player: \w/);
             });
             it("sould throw error for wrong Halfmove", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - A 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - A 1")
                 }, /Input not correct. Halfmoves must be an integer: ./);
             });
             it("sould throw error for wrong Fullmove", ()=>{
                 assert.throws(()=>{
-                    FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 A")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 A")
                 }, /Input not correct. Fullmoves must be an integer: ./);
+            });
+        });
+    });
+    describe("getPieces(GAME)",()=>{
+
+        FENStrings.forEach(FENstring => {
+            let GAME;
+            before("creating valid GAME object",()=>{
+                GAME = chess.FENconverter(FENStrings[0]);
+            });
+            it("should find all the pieces on the board",()=>{
+                const testGame = chess.getPieces(GAME);
+                assert.exists(testGame);
+                assert.equal(testGame.whitePieces.length, 16);
+                assert.equal(testGame.blackPieces.length, 16);
+            });
+        });
+    });
+    describe("moveCalc(PGN)", ()=>{
+        it("should calculate valid stepps", ()=>{
+            moveStrings.forEach((move)=>{
+                chess.moveCalc(move);
             });
         });
     });
