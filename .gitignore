@@ -1,4 +1,8 @@
 # Local files sensitive information
+local.*
+
+# Auto Gen
+test/img
 
 # ---> Node
 # Logs
