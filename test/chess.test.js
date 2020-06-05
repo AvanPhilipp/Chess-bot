@@ -371,4 +371,9 @@ describe("moveCalc(PGN)", ()=>{
             },/Wrong move format: \w/)
         });
     });
+    validMoves.forEach((move)=>{
+        it("should accept a valid game", ()=>{
+            chess.moveCalc(move);
+        });
+    });
 });

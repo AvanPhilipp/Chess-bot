@@ -1,16 +1,9 @@
-const fs = require('fs');
-
 module.exports.FENStrings = [
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
     "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
     "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
     "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
     ];
-
-module.exports.PGNLoad = function(){
-    // let out = fs.createReadStream('./test/PGN/lichess_pgn_2020.05.16_fealoce_vs_MrPoern.PhcaCBmR.pgn');
-    // console.log(out);
-}
 
 module.exports.validMoves = [
     "d4","d5","Bf4","Nc6","e3","Nf6","Nf3","b6","Bb5","Bb7", 
@@ -53,4 +46,4 @@ module.exports.malformedMoves = [
     "O-","O-O-","O-+","O-O-+","O-#","O-O-#","Oe3","OBf4", /** malformed castling moves */
 ]
 
-module.exports.doRender = true;
+module.exports.doRender = false;
