@@ -6,7 +6,16 @@ const chess = require('../chess');
 // const moveCalc = require('../chess').moveCalc;
 
 const FENStrings = require('./test.config').FENStrings;
-const moveStrings = require('./test.config').moves;
+const validMoves = require('./test.config').validMoves;
+const posibleMoves = require('./test.config').posibleMoves;
+const malformedMoves = require('./test.config').malformedMoves;
+
+const PIECES = ["K", "Q", "R", "N", "B", "P"];
+const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
+
+
+
+
 
 function testFENObjects(FENString) {
     let GAME;
@@ -32,7 +41,7 @@ function testFENObjects(FENString) {
     });
     it("should have en Passant options",()=>{
         assert.exists(GAME.enPassant);
-        assert.oneOf(GAME.enPassant.file, ['a','b','c','d','e','f','g','h', null]);
+        assert.oneOf(GAME.enPassant.file, FILES.concat([null]));
         assert.oneOf(GAME.enPassant.rank, [3, 6, null]);
         if((GAME.enPassant.rank && !GAME.enPassant.file) || (!GAME.enPassant.rank && GAME.enPassant.file)){
             assert.fail("Either both file and rank should be 'null' or both should have correct values.");
@@ -146,11 +155,220 @@ describe("Chess",()=>{
             });
         });
     });
-    describe("moveCalc(PGN)", ()=>{
-        it("should calculate valid stepps", ()=>{
-            moveStrings.forEach((move)=>{
+    
+});
+
+describe("moveCalc(PGN)", ()=>{
+    // posibleMoves.castle.forEach((move)=>{    
+    //     it("should calculate valid castle moves", ()=>{
+    //         // console.log(move);
+    //         let OUT = chess.moveCalc(move);
+    //         console.log(OUT);
+    //     });
+    // });
+    posibleMoves.simple.forEach((move)=>{    
+        it("should calculate valid simple moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.check.forEach((move)=>{    
+        it("should calculate valid check moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.check,"Should be check");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.mate.forEach((move)=>{    
+        it("should calculate valid mate moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.mate,"Should be mate");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.orig.forEach((move)=>{    
+        it("should calculate valid moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.checkOrig.forEach((move)=>{    
+        it("should calculate valid check moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.check,"Should be check");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.mateOrig.forEach((move)=>{    
+        it("should calculate valid mate moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.mate,"Should be mate");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.moves);
+            assert.oneOf(OUT.moves.file, FILES);
+            assert.isNumber(OUT.moves.rank);
+            assert.isAtMost(OUT.moves.rank,8);
+
+        });
+    });
+    posibleMoves.take.forEach((move)=>{    
+        it("should calculate valid take moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+
+        });
+    });
+    posibleMoves.takeCheck.forEach((move)=>{    
+        it("should calculate valid take, check moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.check,"Should be check");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+
+        });
+    });
+    posibleMoves.takeMate.forEach((move)=>{    
+        it("should calculate valid take, mate moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.mate,"Should be mate");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+
+        });
+    });
+    posibleMoves.takeOrig.forEach((move)=>{    
+        it("should calculate valid take moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+        });
+    });
+    posibleMoves.takeCheckOrig.forEach((move)=>{    
+        it("should calculate valid take moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.check,"Should be check");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+        });
+    });
+    posibleMoves.takeMateOrig.forEach((move)=>{    
+        it("should calculate valid take moves, from specified Origin", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert(OUT.mate,"Should be mate");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isNumber(OUT.takes.rank);
+            assert.isAtMost(OUT.takes.rank,8);
+        });
+    });
+
+    posibleMoves.promote.forEach((move)=>{    
+        it("should calculate valid promote moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.oneOf(OUT.promote,PIECES);
+        });
+    });
+    posibleMoves.enPassant.forEach((move)=>{    
+        it("should calculate valid en Passant moves", ()=>{
+            // console.log(move);
+            let OUT = chess.moveCalc(move);
+            // console.log(OUT);
+            assert.isBoolean(OUT.enPassant);
+            assert(OUT.enPassant, "En passant should be true");
+            assert.oneOf(OUT.piece,PIECES);
+            assert.exists(OUT.from);
+            assert.oneOf(OUT.from.file, FILES);
+            assert.exists(OUT.takes);
+            assert.oneOf(OUT.takes.file, FILES);
+            assert.isAtMost(OUT.takes.rank,8);
+        });
+    });
+    malformedMoves.forEach((move)=>{
+        it("should throw error on malformed inputs", ()=>{
+            // console.log(move);
+            assert.throws(()=>{
                 chess.moveCalc(move);
-            });
+            },/Wrong move format: \w/)
         });
     });
 });

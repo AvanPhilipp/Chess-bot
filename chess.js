@@ -27,10 +27,10 @@ FENconverter: function (FENdata){
 
     GAME.table = table.map((rank)=>{
         // console.log(rank);
-        let peace_array = rank.split('');
-        // console.log(peace_array);
+        let piece_array = rank.split('');
+        // console.log(piece_array);
         let file = [];
-        peace_array.forEach((obj)=>{
+        piece_array.forEach((obj)=>{
             // console.log(obj);
             let num = parseInt(obj);
             // console.log(num);
@@ -162,37 +162,106 @@ getPieces: function(GAME){
 },
 
 moveCalc: function(moveString){
-    const moveArgs = moveString.split('');
-    // console.log(moveArgs);
-    switch (moveArgs[0]) {
-        case "K":
-            // console.log(moveArgs);
-
-            break;
-        case "Q":
-            // console.log(moveArgs);
-            
-            break;
-        case "R":
-            // console.log(moveArgs);
-            
-            break;
-        case "N":
-            // console.log(moveArgs);
-            
-            break;
-        case "B":
-            // console.log(moveArgs);
-            
-            break;
-        case "O":
-            // console.log(moveArgs);
-            
-            break;
-        default:
-            // console.log(moveArgs);
-            break;
+    // console.log("moveString: ",moveString);
+    const move = {};
+    if(moveString.includes("e.p.")){
+        move.enPassant = true;
+        moveString.slice(0,moveString.length-4);
     }
+    const moveArgs = moveString.split('');
+    // console.log("moveArgs: ",moveArgs);
+    if(moveArgs[moveArgs.length-1]==="+"){
+        move.check = true;
+        moveArgs.splice(moveArgs.length-1,1);
+    }
+    if(moveArgs[moveArgs.length-1]==="#"){
+        move.mate = true;
+        moveArgs.splice(moveArgs.length-1,1);
+    }
+    // console.log("Check/Mate spliced: ",moveArgs);
+
+    if(moveArgs[moveArgs.length-2]==="="){
+        move.promote = moveArgs[moveArgs.length-1];
+        moveArgs.splice(moveArgs.length-2,);
+    }
+    // console.log("Promote spliced: ",moveArgs);
+
+
+    if(moveArgs[0] === "O"){
+        if(moveString.match(/O-O-O[+#]?$/)){
+            move.castleQueen = true;
+            console.log(move);
+            return move;
+        }
+        else if(moveString.match(/O-O[+#]?$/)){
+            move.castleKing = true;
+            console.log(move);
+            return move;
+        }
+        else
+            throw new Error("Wrong move format: " + moveString);
+    }
+    else if(moveArgs[0] === "K" ||
+        moveArgs[0] === "Q" ||
+        moveArgs[0] === "R" ||
+        moveArgs[0] === "B" ||
+        moveArgs[0] === "N"){
+        move.piece = moveArgs[0];
+        moveArgs.splice(0,1);
+    }
+    else{
+        move.piece = "P";
+    }
+    // console.log("Piece spliced: ",moveArgs);
+
+    // console.log(moveArgs.indexOf("x"));
+    if(moveArgs[0]==="x"){
+        move.takes = {};
+        move.takes.rank = parseInt(moveArgs[2],10);
+        move.takes.file = moveArgs[1];
+        
+    }
+    else if(moveArgs[1]==="x"){
+        move.from = {};
+        move.from.file = moveArgs[0];
+        move.takes = {};
+        move.takes.file = moveArgs[2];
+        move.takes.rank = parseInt(moveArgs[3],10);
+    }
+    else if(moveArgs[2]==="x"){
+        move.from = {};
+        move.from.file = moveArgs[0];
+        move.from.rank = parseInt(moveArgs[1],10);
+        move.takes = {};
+        move.takes.file = moveArgs[3];
+        move.takes.rank = parseInt(moveArgs[4],10);
+    }
+    else if(moveArgs.length === 2){
+        move.moves = {};
+        move.moves.file = moveArgs[0];
+        move.moves.rank = parseInt(moveArgs[1],10);
+        
+    }
+    else if(moveArgs.length === 3){
+        move.from = {};
+        move.from.file = moveArgs[0];
+        move.moves = {};
+        move.moves.rank = parseInt(moveArgs[2],10);
+        move.moves.file = moveArgs[1];
+    }
+    else if(moveArgs.length === 4){
+        move.from = {};
+        move.from.file = moveArgs[0];
+        move.from.rank = parseInt(moveArgs[1],10);
+        move.moves = {};
+        move.moves.file = moveArgs[2];
+        move.moves.rank = parseInt(moveArgs[3],10);
+    }
+    else{
+        throw new Error("Wrong move format: " + moveString);
+    }
+    // console.log("final: ",move);
+    return move;
 },
 
 displayBoard: function(FEN){

@@ -12,7 +12,7 @@ module.exports.PGNLoad = function(){
     // console.log(out);
 }
 
-module.exports.moves = [
+module.exports.validMoves = [
     "d4","d5","Bf4","Nc6","e3","Nf6","Nf3","b6","Bb5","Bb7", 
     "O-O","a6","Ba4","b5","Bb3","e6","Nc3","b4","Na4","Na5",
     "c3","bxc3","bxc3","Bd6","c4","dxc4","d5","exd5","Bxd6",
@@ -23,5 +23,34 @@ module.exports.moves = [
     "Rf6","Kg7","Rf4","Qd6","g3","Rb2","Rg4+","Kf6","Rf4+","Ke7",
     "Re1+","Kd7","Rxf7+","Kd8","g4","Rhxh2","Rh7","Qg3+","Kf1","Rbf2#" 
 ];
+
+
+module.exports.posibleMoves = {
+    castle: ["O-O","O-O-O","O-O+","O-O-O+","O-O#","O-O-O#"],/** Posible castling moves */
+    simple: ["d4","Bf4","Nc6","Rh7","Qd6","Kd8"],/** Posible simple moves */
+    check: ["d4+","Bf4+","Nc6+","Rh7+","Qd6+","Kd8+"],/** Posible check moves */
+    mate: ["d4#","Bf4#","Nc6#","Rh7#","Qd6#","Kd8#"],/** Posible mate moves */
+    take: ["Bxf4","Nxc6","Rxh7","Qxd6","Kxd8"],/** Posible simple takes */
+    takeCheck: ["Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+"],/** Posible check takes */
+    takeMate: ["Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#"],/** Posible mate takes */
+    takeOrig: ["cxd4","Bcxf4","Nbxc6","Raxh7","Qdxd6","Kexd8",
+                "Bc1xf4","Nb1xc6","Ra7xh7","Qd6xd6","Ke8xd8"],/** Posible simple origin takes */
+    takeCheckOrig: ["cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+",
+                "Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+"],/** Posible check origin takes */
+    takeMateOrig:  ["cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#",
+                "Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#"],/** Posible mate origin takes */
+    orig: ["Bcf4","Nbc6","Rah7","Qdd6","Ked8",
+            "Bc1f4","Nb1c6","Ra7h7","Qd6d6","Ke8d8"],/** Posible simple origin moves */
+    checkOrig: ["Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+",
+                "Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+"],/** Posible check origin moves */
+    mateOrig: ["Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#",
+                "Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#"],/** Posible mate origin moves */
+    promote: ["e8=Q","e8=R","e8=N","e8=B","e1=Q","e1=R","e1=N","e1=B",
+                "fxe8=Q","e8=Q+","e1=B+","e1=R#","e8=N#","fxe8=Q+","exf1=Q#"], /** Possible pawn promotes */
+    enPassant: ["exd6e.p.","exd3e.p."] /** Possible en passant takes */
+};
+module.exports.malformedMoves = [
+    "O-","O-O-","O-+","O-O-+","O-#","O-O-#","Oe3","OBf4", /** malformed castling moves */
+]
 
 module.exports.doRender = true;
