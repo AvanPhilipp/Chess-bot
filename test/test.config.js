@@ -19,29 +19,55 @@ module.exports.validMoves = [
 
 
 module.exports.posibleMoves = {
-    castle: ["O-O","O-O-O","O-O+","O-O-O+","O-O#","O-O-O#"],/** Posible castling moves */
-    simple: ["d4","Bf4","Nc6","Rh7","Qd6","Kd8"],/** Posible simple moves */
-    check: ["d4+","Bf4+","Nc6+","Rh7+","Qd6+","Kd8+"],/** Posible check moves */
-    mate: ["d4#","Bf4#","Nc6#","Rh7#","Qd6#","Kd8#"],/** Posible mate moves */
-    take: ["Bxf4","Nxc6","Rxh7","Qxd6","Kxd8"],/** Posible simple takes */
-    takeCheck: ["Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+"],/** Posible check takes */
-    takeMate: ["Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#"],/** Posible mate takes */
-    takeOrig: ["cxd4","Bcxf4","Nbxc6","Raxh7","Qdxd6","Kexd8",
-                "Bc1xf4","Nb1xc6","Ra7xh7","Qd6xd6","Ke8xd8"],/** Posible simple origin takes */
-    takeCheckOrig: ["cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+",
-                "Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+"],/** Posible check origin takes */
-    takeMateOrig:  ["cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#",
-                "Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#"],/** Posible mate origin takes */
+    castle: ["O-O","O-O-O","O-O+","O-O-O+","O-O#","O-O-O#"],
+
+    move: ["d4","Bf4","Nc6","Rh7","Qd6","Kd8","Bxf4","Nxc6","Rxh7","Qxd6","Kxd8",
+            "Bcf4","Nbc6","Rah7","Qdd6","Ked8","d4+","Bf4+","Nc6+","Rh7+","Qd6+","Kd8+",
+            "Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+",
+            "cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+","Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+",
+            "Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+","Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+",
+            "e8=Q+","e1=B+","fxe8=Q+","d4#","Bf4#","Nc6#","Rh7#","Qd6#","Kd8#","Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#",
+            "Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#","Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#",
+            "cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#","Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#",
+            "e1=R#","e8=N#","exf1=Q#","exd6e.p.#","exd3e.p.#","Bxf4","Nxc6","Rxh7","Qxd6","Kxd8",
+            "Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+","Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#",
+            "cxd4","Bcxf4","Nbxc6","Raxh7","Qdxd6","Kexd8","Bc1xf4","Nb1xc6","Ra7xh7","Qd6xd6","Ke8xd8",
+            "cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+","Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+",
+            "cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#","Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#","Bcf4","Nbc6","Rah7","Qdd6","Ked8",
+            "Bc1f4","Nb1c6","Ra7h7","Qd6d6","Ke8d8","Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+","Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+",
+            "Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#","Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#","e8=Q","e8=R","e8=N","e8=B","e1=Q","e1=R","e1=N","e1=B",
+            "fxe8=Q","e8=Q+","e1=B+","e1=R#","e8=N#","fxe8=Q+","exf1=Q#","exd6e.p.","exd3e.p.","exd6e.p.+","exd3e.p.+","exd6e.p.#","exd3e.p.#"],
+    
+    check: ["d4+","Bf4+","Nc6+","Rh7+","Qd6+","Kd8+",
+            "Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+",
+            "cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+","Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+",
+            "Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+","Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+",
+            "e8=Q+","e1=B+","fxe8=Q+"],
+    
+    mate: ["d4#","Bf4#","Nc6#","Rh7#","Qd6#","Kd8#",
+            "Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#",
+            "Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#","Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#",
+            "cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#","Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#",
+            "e1=R#","e8=N#","exf1=Q#","exd6e.p.#","exd3e.p.#"],
+    
+    take: ["Bxf4","Nxc6","Rxh7","Qxd6","Kxd8","Bxf4+","Nxc6+","Rxh7+","Qxd6+","Kxd8+","Bxf4#","Nxc6#","Rxh7#","Qxd6#","Kxd8#",
+            "cxd4","Bcxf4","Nbxc6","Raxh7","Qdxd6","Kexd8","Bc1xf4","Nb1xc6","Ra7xh7","Qd6xd6","Ke8xd8",
+            "cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+","Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+",
+            "cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#","Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#"],
+
     orig: ["Bcf4","Nbc6","Rah7","Qdd6","Ked8",
-            "Bc1f4","Nb1c6","Ra7h7","Qd6d6","Ke8d8"],/** Posible simple origin moves */
-    checkOrig: ["Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+",
-                "Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+"],/** Posible check origin moves */
-    mateOrig: ["Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#",
-                "Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#"],/** Posible mate origin moves */
-    promote: ["e8=Q","e8=R","e8=N","e8=B","e1=Q","e1=R","e1=N","e1=B",
-                "fxe8=Q","e8=Q+","e1=B+","e1=R#","e8=N#","fxe8=Q+","exf1=Q#"], /** Possible pawn promotes */
-    enPassant: ["exd6e.p.","exd3e.p."] /** Possible en passant takes */
+            "Bc1f4","Nb1c6","Ra7h7","Qd6d6","Ke8d8",
+            "Bcf4+","Nbc6+","Rah7+","Qdd6+","Ked8+","Bc1f4+","Nb1c6+","Ra7h7+","Qd6d6+","Ke8d8+",
+            "Bcf4#","Nbc6#","Rah7#","Qdd6#","Ked8#","Bc1f4#","Nb1c6#","Ra7h7#","Qd6d6#","Ke8d8#",
+            "cxd4","Bcxf4","Nbxc6","Raxh7","Qdxd6","Kexd8","Bc1xf4","Nb1xc6","Ra7xh7","Qd6xd6","Ke8xd8",
+            "cxd4+","Bcxf4+","Nbxc6+","Raxh7+","Qdxd6+","Kexd8+","Bc1xf4+","Nb1xc6+","Ra7xh7+","Qd6xd6+","Ke8xd8+",
+            "cxd4#","Bcxf4#","Nbxc6#","Raxh7#","Qdxd6#","Kexd8#","Bc1xf4#","Nb1xc6#","Ra7xh7#","Qd6xd6#","Ke8xd8#"],
+
+    promote: ["e8=Q","e8=R","e8=N","e8=B","e1=Q","e1=R","e1=N","e1=B","fxe8=Q","e8=Q+","e1=B+","e1=R#","e8=N#","fxe8=Q+","exf1=Q#"],
+
+    enPassant: ["exd6e.p.","exd3e.p.","exd6e.p.+","exd3e.p.+","exd6e.p.#","exd3e.p.#"]
 };
+
 module.exports.malformedMoves = [
     "O-","O-O-","O-+","O-O-+","O-#","O-O-#","Oe3","OBf4", /** malformed castling moves */
 ]

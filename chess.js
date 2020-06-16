@@ -166,8 +166,9 @@ moveCalc: function(moveString){
     const move = {};
     if(moveString.includes("e.p.")){
         move.enPassant = true;
-        moveString.slice(0,moveString.length-4);
+        moveString = moveString.replace("e.p.","");
     }
+    // console.log("enPassant removed: ",moveString);
     const moveArgs = moveString.split('');
     // console.log("moveArgs: ",moveArgs);
     if(moveArgs[moveArgs.length-1]==="+"){
@@ -180,8 +181,8 @@ moveCalc: function(moveString){
     }
     // console.log("Check/Mate spliced: ",moveArgs);
 
-    if(moveArgs[moveArgs.length-2]==="="){
-        move.promote = moveArgs[moveArgs.length-1];
+    if(moveArgs.includes("=")){
+        move.promote = moveArgs[moveArgs.indexOf("=")+1];
         moveArgs.splice(moveArgs.length-2,);
     }
     // console.log("Promote spliced: ",moveArgs);
@@ -189,13 +190,13 @@ moveCalc: function(moveString){
 
     if(moveArgs[0] === "O"){
         if(moveString.match(/O-O-O[+#]?$/)){
-            move.castleQueen = true;
-            console.log(move);
+            move.castle = "Queen";
+            // console.log(move);
             return move;
         }
         else if(moveString.match(/O-O[+#]?$/)){
-            move.castleKing = true;
-            console.log(move);
+            move.castle = "King";
+            // console.log(move);
             return move;
         }
         else
@@ -215,32 +216,16 @@ moveCalc: function(moveString){
     // console.log("Piece spliced: ",moveArgs);
 
     // console.log(moveArgs.indexOf("x"));
-    if(moveArgs[0]==="x"){
-        move.takes = {};
-        move.takes.rank = parseInt(moveArgs[2],10);
-        move.takes.file = moveArgs[1];
-        
+    if(moveArgs.includes("x")){
+        move.take = true;
+        moveArgs.splice(moveArgs.indexOf("x"),1);
     }
-    else if(moveArgs[1]==="x"){
-        move.from = {};
-        move.from.file = moveArgs[0];
-        move.takes = {};
-        move.takes.file = moveArgs[2];
-        move.takes.rank = parseInt(moveArgs[3],10);
-    }
-    else if(moveArgs[2]==="x"){
-        move.from = {};
-        move.from.file = moveArgs[0];
-        move.from.rank = parseInt(moveArgs[1],10);
-        move.takes = {};
-        move.takes.file = moveArgs[3];
-        move.takes.rank = parseInt(moveArgs[4],10);
-    }
-    else if(moveArgs.length === 2){
+
+
+    if(moveArgs.length === 2){
         move.moves = {};
         move.moves.file = moveArgs[0];
         move.moves.rank = parseInt(moveArgs[1],10);
-        
     }
     else if(moveArgs.length === 3){
         move.from = {};
