@@ -8,7 +8,17 @@ console.log("Game starts");
 module.exports = {
 init: function(){
     // console.log("init(); called");
-    return 1;
+    GAME = this.newGame();
+    return this.displayBoard(GAME);
+},
+
+newGame: function(FENData) {
+    let GAME;
+    if(FENData)
+        GAME = this.FENconverter(FENData);
+    else
+        GAME = this.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    return GAME;
 },
 
 // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
@@ -249,14 +259,13 @@ moveCalc: function(moveString){
     return move;
 },
 
-displayBoard: function(FEN){
-    const GAME = this.FENconverter(FEN);
+displayBoard: function(GAME){
     const board = drawer.createCanvas();
-    drawer.drawBoard(board.context);
+    drawer.drawBoard(board);
     GAME.table.forEach((rank,x_index)=>{
         rank.forEach((file,y_index)=>{
             if(file !== 'e') {
-                drawer.drawPiece(board.context,file,y_index,x_index);
+                drawer.drawPiece(board,file,y_index,x_index);
             }
         });
     });

@@ -10,7 +10,7 @@ drawer.createCanvas = function(){
     const canvas = Canvas.createCanvas(900,900);
     const context = canvas.getContext('2d');
     
-    return {canvas: canvas, context: context};
+    return context;
 }
 
 drawer.drawBoard = function(context){

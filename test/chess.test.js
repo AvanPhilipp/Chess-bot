@@ -13,8 +13,8 @@ const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 describe("Chess",()=>{
     describe("init()", ()=>{
         it("should return 1", ()=>{
-            const result = chess.init();
-            assert.equal(result, 1);
+            const GAME = chess.init();
+            // assert.equal(result, 1);
         });
     });
 
@@ -129,97 +129,98 @@ describe("Chess",()=>{
             });
         });
     }); 
-});
 
-describe("getPieces(GAME)",()=>{
-    it("should find all the pieces on the board",()=>{
-        FENStrings.forEach(FENstring => {
-            const testGame = chess.getPieces(chess.FENconverter(FENStrings[0]));
-            assert.exists(testGame);
-            assert.equal(testGame.whitePieces.length, 16);
-            assert.equal(testGame.blackPieces.length, 16);
-        });
-    });
-});
-
-describe("moveCalc(PGN)", ()=>{
-    it("Should be a castle move",()=>{
-        posibleMoves.castle.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.oneOf(OUT.castle, ["King", "Queen"]);
+    describe("getPieces(GAME)",()=>{
+        it("should find all the pieces on the board",()=>{
+            FENStrings.forEach(FENstring => {
+                const testGame = chess.getPieces(chess.FENconverter(FENStrings[0]));
+                assert.exists(testGame);
+                assert.equal(testGame.whitePieces.length, 16);
+                assert.equal(testGame.blackPieces.length, 16);
+            });
         });
     });
 
-    it("Should be a valid move",()=>{
-        posibleMoves.move.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.oneOf(OUT.piece,PIECES);
-            assert.exists(OUT.moves);
-            assert.oneOf(OUT.moves.file, FILES);
-            assert.isAtMost(OUT.moves.rank,8);
-            assert.notEqual(OUT.moves.rank,0);
+    describe("moveCalc(PGN)", ()=>{
+        it("Should be a castle move",()=>{
+            posibleMoves.castle.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.oneOf(OUT.castle, ["King", "Queen"]);
+            });
         });
-    });
 
-    it("Should be a take move",()=>{
-        posibleMoves.take.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.isTrue(OUT.take);
+        it("Should be a valid move",()=>{
+            posibleMoves.move.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.oneOf(OUT.piece,PIECES);
+                assert.exists(OUT.moves);
+                assert.oneOf(OUT.moves.file, FILES);
+                assert.isAtMost(OUT.moves.rank,8);
+                assert.notEqual(OUT.moves.rank,0);
+            });
         });
-    });
-    
-    it("Should be a check move",()=>{
-        posibleMoves.check.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.isTrue(OUT.check);
-        });
-    });
 
-    it("Should be a mate move",()=>{
-        posibleMoves.mate.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.isTrue(OUT.mate);
+        it("Should be a take move",()=>{
+            posibleMoves.take.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.isTrue(OUT.take);
+            });
         });
-    });
-
-    it("Should be a move, with origin",()=>{
-        posibleMoves.orig.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.exists(OUT.from);
-            assert.oneOf(OUT.from.file, FILES);
-            if(OUT.from.rank){
-                assert.isAtMost(OUT.from.rank,8);
-                assert.notEqual(OUT.from.rank,0);
-            }
+        
+        it("Should be a check move",()=>{
+            posibleMoves.check.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.isTrue(OUT.check);
+            });
         });
-    });
 
-    it("Should be a promote move",()=>{
-        posibleMoves.promote.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.oneOf(OUT.promote, PIECES);
+        it("Should be a mate move",()=>{
+            posibleMoves.mate.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.isTrue(OUT.mate);
+            });
         });
-    });
 
-    it("Should be an en Passant move",()=>{
-        posibleMoves.enPassant.forEach((move)=>{
-            let OUT = chess.moveCalc(move);
-            assert.isTrue(OUT.enPassant);
+        it("Should be a move, with origin",()=>{
+            posibleMoves.orig.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.exists(OUT.from);
+                assert.oneOf(OUT.from.file, FILES);
+                if(OUT.from.rank){
+                    assert.isAtMost(OUT.from.rank,8);
+                    assert.notEqual(OUT.from.rank,0);
+                }
+            });
         });
-    });
 
-    it("should throw error on malformed inputs", ()=>{
-        malformedMoves.forEach((move)=>{
-            // console.log(move);
-            assert.throws(()=>{
+        it("Should be a promote move",()=>{
+            posibleMoves.promote.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.oneOf(OUT.promote, PIECES);
+            });
+        });
+
+        it("Should be an en Passant move",()=>{
+            posibleMoves.enPassant.forEach((move)=>{
+                let OUT = chess.moveCalc(move);
+                assert.isTrue(OUT.enPassant);
+            });
+        });
+
+        it("should throw error on malformed inputs", ()=>{
+            malformedMoves.forEach((move)=>{
+                // console.log(move);
+                assert.throws(()=>{
+                    chess.moveCalc(move);
+                },/Wrong move format: \w/)
+            });
+        });
+
+        it("should accept a valid game", ()=>{
+            validMoves.forEach((move)=>{
                 chess.moveCalc(move);
-            },/Wrong move format: \w/)
+            });
         });
     });
 
-    it("should accept a valid game", ()=>{
-        validMoves.forEach((move)=>{
-            chess.moveCalc(move);
-        });
-    });
 });
