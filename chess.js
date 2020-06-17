@@ -288,7 +288,7 @@ chess.moveInGame = function(GAME, MOVE){
     }
 
     MOVE.piece = GAME.nextPlayer === "w" ? MOVE.piece.toUpperCase() : MOVE.piece.toLowerCase();
-    console.log(MOVE);
+    // console.log(MOVE);
     fromFileIDX = utils.FILES[MOVE.from.file]-1;
     if(MOVE.from.rank){
         fromRankIDX = 8-MOVE.from.rank;
@@ -297,13 +297,9 @@ chess.moveInGame = function(GAME, MOVE){
     else{
         GAME.table[fromFileIDX][GAME.table[fromFileIDX].indexOf(MOVE.piece)] = "e";
     }
-    // console.log(MOVE.moves.file);
-    // console.log(utils.FILES[MOVE.moves.file]);
-    // console.log(this.deFILE(utils.FILES[MOVE.moves.file]));
     GAME.table[moveFileIDX][moveRankIDX] = MOVE.piece;
 
     GAME.nextPlayer = GAME.nextPlayer === "w" ? "b" : "w";
-    // GAME.table[utils.FILES["b"]-1][0] = "X";
 
     return GAME;
 }
@@ -317,7 +313,8 @@ module.exports = chess;
 // utils.printBoard(GAME);
 // chess.moveInGame(GAME, chess.moveCalc("Bcf4"));
 // utils.printBoard(GAME);
-// chess.moveInGame(GAME, chess.moveCalc("d5"));
+// chess.moveInGame(GAME, chess.moveCalc("e4"));
+// console.log(GAME.table);
 // utils.printBoard(GAME);
 // chess.moveInGame(GAME, chess.moveCalc("d3"));
 // utils.printBoard(GAME);
