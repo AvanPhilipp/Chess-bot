@@ -69,7 +69,7 @@ module.exports.posibleMoves = {
 };
 
 module.exports.malformedMoves = [
-    "O-","O-O-","O-+","O-O-+","O-#","O-O-#","Oe3","OBf4", /** malformed castling moves */
+    "O-","O-O-","O-+","O-O-+","O-#","O-O-#","Oe3","OBf4","Bd" /** malformed castling moves */
 ]
 
 module.exports.doRender = true;

@@ -3,7 +3,6 @@ const fs = require('fs');
 
 const config = require('./chess.config');
 
-
 const drawer = {};
 
 drawer.createCanvas = function(){
@@ -68,6 +67,8 @@ drawer.drawBoard = function(context){
 drawer.drawPiece = function(context, piece, pos_x, pos_y){
     const sprites = new Canvas.Image();
     sprites.src = "./asset/Chess_Pieces_Sprite.png";
+    if(pos_x < 0 || pos_x > 7 || pos_y < 0 || pos_y >7)
+        throw new Error("Wrong coordinates: ("+pos_x+";"+pos_y+")");
     switch (piece) {
         case "K":
             context.drawImage(sprites, 0,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
@@ -105,8 +106,10 @@ drawer.drawPiece = function(context, piece, pos_x, pos_y){
         case "p":
             context.drawImage(sprites, 500,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
             break;
+        case "e":
+            break;
         default:
-            throw new Error("Unknown Piece");
+            throw new Error("Unknown Piece: " + piece);
     }
 }
 
@@ -116,10 +119,10 @@ drawer.displayBoard= function(GAME){
     // console.log(GAME.table);
     GAME.table.forEach((rank,x_index)=>{
         // console.log(rank);
-        rank.forEach((file,y_index)=>{
-            if(file !== 'e') {
-                this.drawPiece(board,file,x_index,y_index);
-            }
+        rank.forEach((piece,y_index)=>{
+            // if(piece !== 'e') {
+            this.drawPiece(board,piece,x_index,y_index);
+            // }
         });
     });
     return board;

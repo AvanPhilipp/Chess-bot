@@ -167,7 +167,7 @@ chess.getPieces= function(GAME){
                 case "e":
                     break;
                 default:
-                    throw new Error("Unknown Piece");
+                    throw new Error("Unknown Piece: " + piece);
             }
         });
     });
@@ -313,16 +313,16 @@ const validMoves = require("./test/test.config").validMoves;
 module.exports = chess;
 //  this.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-const GAME = chess.newGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-utils.printBoard(GAME);
-chess.moveInGame(GAME, chess.moveCalc("Bcf4"));
-utils.printBoard(GAME);
-chess.moveInGame(GAME, chess.moveCalc("d5"));
-utils.printBoard(GAME);
-chess.moveInGame(GAME, chess.moveCalc("d3"));
-utils.printBoard(GAME);
-chess.moveInGame(GAME, chess.moveCalc("Bcf6"));
-utils.printBoard(GAME);
+// const GAME = chess.newGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+// utils.printBoard(GAME);
+// chess.moveInGame(GAME, chess.moveCalc("Bcf4"));
+// utils.printBoard(GAME);
+// chess.moveInGame(GAME, chess.moveCalc("d5"));
+// utils.printBoard(GAME);
+// chess.moveInGame(GAME, chess.moveCalc("d3"));
+// utils.printBoard(GAME);
+// chess.moveInGame(GAME, chess.moveCalc("Bcf6"));
+// utils.printBoard(GAME);
 // validMoves.forEach((move)=>{
 //     this.moveInGame(this.newGame(), this.moveCalc(move));
 //     printBoard();

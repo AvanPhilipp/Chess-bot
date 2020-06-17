@@ -58,7 +58,7 @@ describe("Chess",()=>{
                 it("should count the moves",()=>{
                     assert.isNumber(GAME.moves);
                 });
-                it("should find all the pieces on the board",()=>{
+                it("should contain all the pieces on the board",()=>{
                     assert.exists(GAME);
                     assert.equal(GAME.pieces.white.length, 16);
                     assert.equal(GAME.pieces.black.length, 16);
@@ -133,11 +133,16 @@ describe("Chess",()=>{
     describe("getPieces(GAME)",()=>{
         it("should find all the pieces on the board",()=>{
             FENStrings.forEach(FENstring => {
-                const testGame = chess.getPieces(chess.FENconverter(FENStrings[0]));
+                const testGame = chess.getPieces(chess.FENconverter(FENstring));
                 assert.exists(testGame);
                 assert.equal(testGame.white.length, 16);
                 assert.equal(testGame.black.length, 16);
             });
+        });
+        it("throws erro on unknown piece", ()=>{
+            assert.throws(()=>{
+                const testGame = chess.getPieces(chess.FENconverter("rnbqkbnr/pppppXpp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+            },/Unknown Piece: ./);
         });
     });
 
@@ -222,5 +227,10 @@ describe("Chess",()=>{
             });
         });
     });
+    describe("searchPossiblePiece(GAME, MOVE)",()=>{
 
+    });
+    describe("moveInGame(GAME, MOVE)",()=>{
+
+    });
 });
