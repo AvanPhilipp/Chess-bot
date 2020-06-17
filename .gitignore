@@ -1,6 +1,9 @@
 # Local files sensitive information
 local.*
 
+#test files
+dummy.*
+
 # TEST files
 test/PGN
 
