@@ -1,6 +1,4 @@
 // const assert = require('chai').assert;
-const Canvas = require('canvas');
-const fs = require('fs');
 const drawer = require('./chess.drawer');
 const utils = require('./chess.utils');
 
@@ -8,14 +6,10 @@ console.log("Game starts");
 
 const chess = {};
 
-chess.FILES = {
-    "a":1, "b":2, "c":3, "d":4,
-    "e":5, "f":6, "g":7, "h":8 };
-
 chess.init= function(){
     // console.log("init(); called");
-    GAME = this.newGame();
-    return this.displayBoard(GAME);
+    const GAME = this.newGame();
+    return drawer.displayBoard(GAME);
 };
 
 chess.newGame= function(FENData) {
@@ -67,7 +61,7 @@ chess.FENconverter= function (FENdata){
         return tmp_rank;
     });
     GAME.table = utils.transpose(GAME.table);
-    // ASCIIBoard(GAME);
+    // printBoard(GAME);
     // console.log(GAME);
 
     GAME.nextPlayer = FENargs[1];
@@ -268,24 +262,6 @@ chess.moveCalc= function(moveString){
     return move;
 },
 
-// animateFrameCount = 0;
-
-// animate = function(PGN_moves){
-//     if(animateFrameCount == PGN_moves.length){
-//         const GAME = this.newGame();
-//         animateFrameCount = 0;
-//     }
-//     else{
-//         this.moveInGame(GAME, this.moveCalc(PGN_moves[animateFrameCount]));
-//         animateFrameCount+=1;
-//     }
-
-//     // ASCIIBoard();
-//     this.displayBoard(GAME);
-
-//     requestAnimationFrame(this.animate);
-// }
-
 chess.searchPossiblePiece = function(GAME, MOVE){
     MOVE.from = {};
     if(MOVE.piece ==="P"){
@@ -303,7 +279,7 @@ chess.searchPossiblePiece = function(GAME, MOVE){
 
 chess.moveInGame = function(GAME, MOVE){
     // console.log(MOVE);
-    const moveFileIDX = this.FILES[MOVE.moves.file]-1;
+    const moveFileIDX = utils.FILES[MOVE.moves.file]-1;
     const moveRankIDX = 8-MOVE.moves.rank;
     let fromFileIDX;
     let fromRankIDX;
@@ -313,7 +289,7 @@ chess.moveInGame = function(GAME, MOVE){
 
     MOVE.piece = GAME.nextPlayer === "w" ? MOVE.piece.toUpperCase() : MOVE.piece.toLowerCase();
     console.log(MOVE);
-    fromFileIDX = this.FILES[MOVE.from.file]-1;
+    fromFileIDX = utils.FILES[MOVE.from.file]-1;
     if(MOVE.from.rank){
         fromRankIDX = 8-MOVE.from.rank;
         GAME.table[fromFileIDX][fromRankIDX] = "e";
@@ -322,12 +298,12 @@ chess.moveInGame = function(GAME, MOVE){
         GAME.table[fromFileIDX][GAME.table[fromFileIDX].indexOf(MOVE.piece)] = "e";
     }
     // console.log(MOVE.moves.file);
-    // console.log(this.FILES[MOVE.moves.file]);
-    // console.log(this.deFILE(this.FILES[MOVE.moves.file]));
+    // console.log(utils.FILES[MOVE.moves.file]);
+    // console.log(this.deFILE(utils.FILES[MOVE.moves.file]));
     GAME.table[moveFileIDX][moveRankIDX] = MOVE.piece;
 
     GAME.nextPlayer = GAME.nextPlayer === "w" ? "b" : "w";
-    // GAME.table[this.FILES["b"]-1][0] = "X";
+    // GAME.table[utils.FILES["b"]-1][0] = "X";
 
     return GAME;
 }
@@ -337,17 +313,17 @@ const validMoves = require("./test/test.config").validMoves;
 module.exports = chess;
 //  this.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-// const GAME = this.newGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-// // ASCIIBoard(GAME);
-// this.moveInGame(GAME, this.moveCalc("Bcf4"));
-// // ASCIIBoard(GAME);
-// this.moveInGame(GAME, this.moveCalc("d5"));
-// // ASCIIBoard(GAME);
-// this.moveInGame(GAME, this.moveCalc("d3"));
-// this.moveInGame(GAME, this.moveCalc("Bcf6"));
-// // ASCIIBoard(GAME);
-// ASCIIBoard(GAME);
+const GAME = chess.newGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+utils.printBoard(GAME);
+chess.moveInGame(GAME, chess.moveCalc("Bcf4"));
+utils.printBoard(GAME);
+chess.moveInGame(GAME, chess.moveCalc("d5"));
+utils.printBoard(GAME);
+chess.moveInGame(GAME, chess.moveCalc("d3"));
+utils.printBoard(GAME);
+chess.moveInGame(GAME, chess.moveCalc("Bcf6"));
+utils.printBoard(GAME);
 // validMoves.forEach((move)=>{
 //     this.moveInGame(this.newGame(), this.moveCalc(move));
-//     ASCIIBoard();
+//     printBoard();
 // });

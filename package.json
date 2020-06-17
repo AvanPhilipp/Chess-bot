@@ -4,7 +4,8 @@
   "description": "FIrst discord chess bot for fun and for test",
   "main": "index.js",
   "scripts": {
-    "test": "mocha || true"
+    "test": "mocha || true",
+    "coverage": "nyc npm run test"
   },
   "author": "fealoce",
   "license": "ISC",
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.2.0"
+    "mocha": "^7.2.0",
+    "nyc": "^15.1.0"
   }
 }

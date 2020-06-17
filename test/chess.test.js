@@ -1,6 +1,7 @@
 const assert = require('chai').assert;
 
 const chess = require('../chess');
+const utils = require('../chess.utils');
 
 const FENStrings = require('./test.config').FENStrings;
 const validMoves = require('./test.config').validMoves;
@@ -8,12 +9,12 @@ const posibleMoves = require('./test.config').posibleMoves;
 const malformedMoves = require('./test.config').malformedMoves;
 
 const PIECES = ["K", "Q", "R", "N", "B", "P"];
-const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
+const FILES = Object.keys(utils.FILES);
 
 describe("Chess",()=>{
     describe("init()", ()=>{
-        it.skip("should return 1", ()=>{
-            // const GAME = chess.init();
+        it("should return a new game", ()=>{
+            const GAME = chess.init();
             // assert.equal(result, 1);
         });
     });

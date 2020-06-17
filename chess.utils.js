@@ -1,15 +1,20 @@
 const utils = {};
 
+utils.FILES = {
+    "a":1, "b":2, "c":3, "d":4,
+    "e":5, "f":6, "g":7, "h":8 };
 
-utils.deFILE = function(fileNum){
-    return Object.keys(this.FILES).find((key)=>{return this.FILES[key] === fileNum});
+
+utils.deFILE = function(fileAsNum){
+    return Object.keys(this.FILES).find((key)=>{return this.FILES[key] === fileAsNum});
 };
 
-utils.transpose = function (array) {
-    return array[0].map((column, colIndex) => array.map(row => row[colIndex]));
+utils.transpose = function (matrix) {
+    // console.log(matrix);
+    return matrix[0].map((column, colIndex) => matrix.map(row => row[colIndex]));
 };
 
-utils.ASCIIBoard= function(GAME){
+utils.printBoard= function(GAME){
     let boardString = "";
     const table = this.transpose(GAME.table);
     table.forEach((rank,y_index)=>{
@@ -24,7 +29,9 @@ utils.ASCIIBoard= function(GAME){
         });
         boardString = boardString.concat("\n");
     });
+    boardString = boardString.substring(0, boardString.length - 1);
     console.log(boardString);
+    return boardString;
 };
 
 module.exports = utils;
