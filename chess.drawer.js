@@ -64,53 +64,54 @@ drawer.drawBoard = function(context){
     context.save();
 }
 
-drawer.drawPiece = function(context, piece, pos_x, pos_y){
+drawer.drawPiece = function(context, piece, pos_x, pos_y, border = 50){
     const sprites = new Canvas.Image();
     sprites.src = "./asset/Chess_Pieces_Sprite.png";
     if(pos_x < 0 || pos_x > 7 || pos_y < 0 || pos_y >7)
         throw new Error("Wrong coordinates: ("+pos_x+";"+pos_y+")");
     switch (piece) {
         case "K":
-            context.drawImage(sprites, 0,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 0,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "Q":
-            context.drawImage(sprites, 100,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 100,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "B":
-            context.drawImage(sprites, 200,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 200,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "N":
-            context.drawImage(sprites, 300,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 300,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "R":
-            context.drawImage(sprites, 400,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 400,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "P":
-            context.drawImage(sprites, 500,0,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 500,0,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "k":
-            context.drawImage(sprites, 0,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 0,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "q":
-            context.drawImage(sprites, 100,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 100,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "b":
-            context.drawImage(sprites, 200,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 200,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "n":
-            context.drawImage(sprites, 300,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 300,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "r":
-            context.drawImage(sprites, 400,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 400,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "p":
-            context.drawImage(sprites, 500,100,100,100,50+(pos_x*100),50+(pos_y*100),100,100);
+            context.drawImage(sprites, 500,100,100,100,border+(pos_x*100),border+(pos_y*100),100,100);
             break;
         case "e":
             break;
         default:
             throw new Error("Unknown Piece: " + piece);
     }
+    return context;
 }
 
 drawer.displayBoard= function(GAME){

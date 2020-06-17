@@ -14,6 +14,13 @@ client.on('message', msg => {
     if (msg.content === 'ping') {
         msg.reply('Pong!');
     }
+    if(msg.content === 'print'){
+        console.log(msg.author);
+        msg.reply(" data printed");
+    }
+    if(msg.mentions){
+        console.log(msg.mentions);
+    }
 });
 
 client.on('message', (msg)=>{
@@ -36,11 +43,6 @@ client.on('message', (msg)=>{
         case "cont":
             FEN = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6];
             board = chess.displayBoard(chess.newGame(FEN));
-            boardCanvas = new Discord.MessageAttachment(board.canvas.toBuffer(),"act.png");
-            msg.channel.send('Chess game resumes', boardCanvas);
-            break;
-        case "test":
-            board = chess.displayBoard(chess.moveInGame(chess.newGame(), chess.moveCalc("d4")));
             boardCanvas = new Discord.MessageAttachment(board.canvas.toBuffer(),"act.png");
             msg.channel.send('Chess game resumes', boardCanvas);
             break;

@@ -8,7 +8,7 @@ const validMoves = require('./test.config').validMoves;
 const posibleMoves = require('./test.config').posibleMoves;
 const malformedMoves = require('./test.config').malformedMoves;
 
-const PIECES = ["K", "Q", "R", "N", "B", "P"];
+const PIECES = utils.PIECES;
 const FILES = Object.keys(utils.FILES);
 
 describe("Chess",()=>{
