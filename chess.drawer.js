@@ -110,4 +110,19 @@ drawer.drawPiece = function(context, piece, pos_x, pos_y){
     }
 }
 
+drawer.displayBoard= function(GAME){
+    const board = this.createCanvas();
+    this.drawBoard(board);
+    // console.log(GAME.table);
+    GAME.table.forEach((rank,x_index)=>{
+        // console.log(rank);
+        rank.forEach((file,y_index)=>{
+            if(file !== 'e') {
+                this.drawPiece(board,file,x_index,y_index);
+            }
+        });
+    });
+    return board;
+}
+
 module.exports = drawer;
