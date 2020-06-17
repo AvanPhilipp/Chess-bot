@@ -39,6 +39,14 @@ client.on('message', (msg)=>{
             boardCanvas = new Discord.MessageAttachment(board.canvas.toBuffer(),"act.png");
             msg.channel.send('Chess game resumes', boardCanvas);
             break;
+        case "test":
+            board = chess.displayBoard(chess.moveInGame(chess.newGame(), chess.moveCalc("d4")));
+            boardCanvas = new Discord.MessageAttachment(board.canvas.toBuffer(),"act.png");
+            msg.channel.send('Chess game resumes', boardCanvas);
+            break;
+        case "gameTest":
+            chess.animate();
+            break;
         default:
             msg.channel.send("Unknown command");
             break;

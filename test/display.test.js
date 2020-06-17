@@ -5,8 +5,11 @@ const FENStrings = require('./test.config').FENStrings;
 const doRender = require('./test.config').doRender;
 
 FENStrings.forEach((FEN, index)=>{
-    const board = chess.displayBoard(chess.newGame(FEN));
+    const GAME = chess.newGame(FEN);
+    const board = chess.displayBoard(GAME);
     
+    chess.ASCIIBoard(GAME);
+
     if(doRender){
         let out = fs.createWriteStream('./test/img/state_'+ index+'.png'),
             stream = board.canvas.createPNGStream();

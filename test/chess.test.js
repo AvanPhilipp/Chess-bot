@@ -12,8 +12,8 @@ const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 describe("Chess",()=>{
     describe("init()", ()=>{
-        it("should return 1", ()=>{
-            const GAME = chess.init();
+        it.skip("should return 1", ()=>{
+            // const GAME = chess.init();
             // assert.equal(result, 1);
         });
     });
@@ -58,10 +58,9 @@ describe("Chess",()=>{
                     assert.isNumber(GAME.moves);
                 });
                 it("should find all the pieces on the board",()=>{
-                    const testGame = chess.getPieces(GAME);
-                    assert.exists(testGame);
-                    assert.equal(testGame.whitePieces.length, 16);
-                    assert.equal(testGame.blackPieces.length, 16);
+                    assert.exists(GAME);
+                    assert.equal(GAME.pieces.white.length, 16);
+                    assert.equal(GAME.pieces.black.length, 16);
                 });
             });
         });
@@ -88,27 +87,27 @@ describe("Chess",()=>{
         describe("error checks", ()=>{
             it("sould throw error on malformed FEN", ()=>{
                 assert.throws(()=>{
-                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0");
                 }, /Input not correct. 6 arguments expected, recived \d/);
             });
             it("sould throw error for too much ranks", ()=>{
                 assert.throws(()=>{
-                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/RNBQKBNR w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/RNBQKBNR w KQkq - 0 1");
                 }, /Input not correct. Incorrect number of ranks: \d/);
             });
             it("sould throw error for too few ranks", ()=>{
                 assert.throws(()=>{
-                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP w KQkq - 0 1");
                 }, /Input not correct. Incorrect number of ranks: \d/);
             });
             it("sould throw error for too much files", ()=>{
                 assert.throws(()=>{
-                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNB w KQkq - 0 1");
                 }, /Input not correct. Incorrect number of file: \d/);
             });
             it("sould throw error for too few files", ()=>{
                 assert.throws(()=>{
-                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNRQQQ w KQkq - 0 1")
+                    chess.FENconverter("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNRQQQ w KQkq - 0 1");
                 }, /Input not correct. Incorrect number of file: \d/);
             });
 
@@ -135,8 +134,8 @@ describe("Chess",()=>{
             FENStrings.forEach(FENstring => {
                 const testGame = chess.getPieces(chess.FENconverter(FENStrings[0]));
                 assert.exists(testGame);
-                assert.equal(testGame.whitePieces.length, 16);
-                assert.equal(testGame.blackPieces.length, 16);
+                assert.equal(testGame.white.length, 16);
+                assert.equal(testGame.black.length, 16);
             });
         });
     });

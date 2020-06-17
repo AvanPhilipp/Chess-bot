@@ -19,7 +19,7 @@ drawer.drawBoard = function(context){
 
     for (let width = 0; width < 8; width++) {
         for (let height = 0; height < 8; height++) {
-            context.fillStyle = (height + width) % 2 ? config.chessWhite : config.chessBlack; 
+            context.fillStyle = (height + width) % 2 ? config.chessBlack : config.chessWhite; 
             context.fillRect((100*width)+50, (100*height)+50, 100, 100);
         }
     }
@@ -111,46 +111,3 @@ drawer.drawPiece = function(context, piece, pos_x, pos_y){
 }
 
 module.exports = drawer;
-
-// const board = drawer.createCanvas();
-// drawer.drawBoard(board.context);
-
-// drawer.drawPiece(board.context,"r",0,0);
-// drawer.drawPiece(board.context,"n",1,0);
-// drawer.drawPiece(board.context,"b",2,0);
-// drawer.drawPiece(board.context,"k",3,0);
-// drawer.drawPiece(board.context,"q",4,0);
-// drawer.drawPiece(board.context,"b",5,0);
-// drawer.drawPiece(board.context,"n",6,0);
-// drawer.drawPiece(board.context,"r",7,0);
-// drawer.drawPiece(board.context,"p",0,1);
-// drawer.drawPiece(board.context,"p",1,1);
-// drawer.drawPiece(board.context,"p",2,1);
-// drawer.drawPiece(board.context,"p",3,1);
-// drawer.drawPiece(board.context,"p",4,1);
-// drawer.drawPiece(board.context,"p",5,1);
-// drawer.drawPiece(board.context,"p",6,1);
-// drawer.drawPiece(board.context,"p",7,1);
-
-// drawer.drawPiece(board.context,"R",0,7);
-// drawer.drawPiece(board.context,"N",1,7);
-// drawer.drawPiece(board.context,"B",2,7);
-// drawer.drawPiece(board.context,"K",3,7);
-// drawer.drawPiece(board.context,"Q",4,7);
-// drawer.drawPiece(board.context,"B",5,7);
-// drawer.drawPiece(board.context,"N",6,7);
-// drawer.drawPiece(board.context,"R",7,7);
-// drawer.drawPiece(board.context,"P",0,6);
-// drawer.drawPiece(board.context,"P",1,6);
-// drawer.drawPiece(board.context,"P",2,6);
-// drawer.drawPiece(board.context,"P",3,6);
-// drawer.drawPiece(board.context,"P",4,6);
-// drawer.drawPiece(board.context,"P",5,6);
-// drawer.drawPiece(board.context,"P",6,6);
-// drawer.drawPiece(board.context,"P",7,6);
-
-// var out = fs.createWriteStream('./state.png'), stream = board.canvas.createPNGStream();
-
-// stream.on('data', function(chunk){
-//   out.write(chunk);
-// });
