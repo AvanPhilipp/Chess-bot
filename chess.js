@@ -297,9 +297,9 @@ chess.searchPiece = function(GAME, MOVE){
         
     }
     if(MOVE.piece === "N"){
-        console.log("Knight");
+        // console.log("Knight");
         if(!MOVE.from.file){
-            console.log("Knight no file");
+            // console.log("Knight no file");
             // let toPrint = "";
             for (let fileIndex = moveFileIDX-2; fileIndex <= moveFileIDX+2; fileIndex++) {
                 for (let rankIndex = moveRankIDX-2; rankIndex <= moveRankIDX+2; rankIndex++) {
@@ -321,8 +321,12 @@ chess.searchPiece = function(GAME, MOVE){
         }
         else {
             const fromFileIDX = utils.FILES[MOVE.from.file]-1;
-            console.log(GAME.table[fromFileIDX].find((piece)=>{return piece === MOVE.piece}));
-            MOVE.from.rank = GAME.table[fromFileIDX].find((piece)=>{return piece === MOVE.piece});
+            // console.log(8-GAME.table[fromFileIDX].indexOf(MOVE.piece));
+            GAME.table[fromFileIDX].forEach((piece, idx) => {
+                if(piece.toUpperCase() == MOVE.piece){
+                    MOVE.from.rank = 8-idx;
+                }
+            });
         }
     }
     if(MOVE.piece === "B"){
@@ -332,7 +336,7 @@ chess.searchPiece = function(GAME, MOVE){
         
     }
     if(MOVE.piece === "K"){
-        console.log("King");
+        // console.log("King");
         // const actualPiece = (GAME.nextPlayer==="w") ? "K":"k";
         // let toPrint = "";
         for (let fileIndex = moveFileIDX-1; fileIndex <= moveFileIDX+1; fileIndex++) {
@@ -347,7 +351,7 @@ chess.searchPiece = function(GAME, MOVE){
         }
         // console.log(toPrint);
     }
-    console.log(MOVE);
+    // console.log(MOVE);
     if(!MOVE.from || !MOVE.from.rank)
         throw new Error("Illegal Move: ");
     return MOVE;
