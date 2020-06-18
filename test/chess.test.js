@@ -229,7 +229,7 @@ describe("moveCalc(PGN)", ()=>{
         });
     });
 });
-describe("searchPossiblePiece(GAME, MOVE)",()=>{
+describe("searchPiece(GAME, MOVE)",()=>{
     let GAME;
     let MOVE;
     before(()=>{
@@ -237,7 +237,7 @@ describe("searchPossiblePiece(GAME, MOVE)",()=>{
         MOVE = chess.moveCalc("e4");
     });
     it("should generate FROM fields", ()=>{
-        const OUT = chess.searchPossiblePiece(GAME,MOVE);
+        const OUT = chess.searchPiece(GAME,MOVE);
         assert.exists(OUT.from);
         assert.oneOf(OUT.from.file, FILES);
         if(OUT.from.rank){
@@ -270,7 +270,7 @@ describe("moveInGame(GAME, MOVE)",()=>{
         ['n','p','e','e','e','e','P','N'],
         ['r','p','e','e','e','e','P','R']
     ];
-    before(()=>{
+    beforeEach(()=>{
         GAME = chess.newGame();
         MOVE1 = chess.moveCalc("e4");
         MOVE2 = chess.moveCalc("e5");
@@ -282,7 +282,9 @@ describe("moveInGame(GAME, MOVE)",()=>{
         assert.deepEqual(OUT.table, controllBoard1);
     });
     it("should move two piece",()=>{
+        chess.moveInGame(GAME,MOVE1);
         const OUT = chess.moveInGame(GAME,MOVE2);
+        // utils.printBoard(OUT);
         assert.equal(OUT.nextPlayer, "w");
         assert.deepEqual(OUT.table, controllBoard2);
     });

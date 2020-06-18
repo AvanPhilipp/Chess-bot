@@ -20,12 +20,12 @@ utils.printBoard= function(GAME){
     const table = this.transpose(GAME.table);
     table.forEach((rank,y_index)=>{
         // console.log(rank);
-        rank.forEach((file,x_index)=>{
-            if(file === 'e') {
-                boardString = boardString.concat(" ");
+        rank.forEach((piece,x_index)=>{
+            if(piece === 'e') {
+                boardString = boardString.concat("  ");
             }
             else{
-                boardString = boardString.concat(file);
+                boardString = boardString.concat(piece + " ");
             }
         });
         boardString = boardString.concat("\n");

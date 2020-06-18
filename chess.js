@@ -272,33 +272,27 @@ chess.searchPiece = function(GAME, MOVE){
 
     if(MOVE.piece === "P"){
         if(!MOVE.from.file){
-
-            console.log("no File");
             MOVE.from.file = MOVE.moves.file;
         }
         if((MOVE.moves.rank === 4) && GAME.nextPlayer==="w") {
-
-            console.log("white R4");
-            if(GAME.table[moveFileIDX][3]){
-                MOVE.moves.rank = 3;}
+            if(GAME.table[moveFileIDX][3] === MOVE.piece){
+                MOVE.from.rank = 3;}
             else
-                MOVE.moves.rank =2;
+                MOVE.from.rank = 2;
             return MOVE;
         }
         if(MOVE.moves.rank === 5 && GAME.nextPlayer==="b"){
-
-            console.log("black R5");
-            if(GAME.table[moveFileIDX][6])
-                MOVE.moves.rank = 6;
+            if(GAME.table[moveFileIDX][6] === MOVE.piece)
+                MOVE.from.rank = 6;
             else
-                MOVE.moves.rank =7;
+                MOVE.from.rank = 7;
             return MOVE;
         }
-
-        console.log("otherwhise");
-        MOVE.from.rank = GAME.nextPlayer == "w" ? MOVE.moves.rank-1 : MOVE.moves.rank+1
-
-            
+        if(MOVE.enPassant){
+            MOVE.moves.rank = GAME.nextPlayer == "w" ? MOVE.moves.rank+1 : MOVE.moves.rank-1
+        }
+        MOVE.from.rank = GAME.nextPlayer == "w" ? MOVE.moves.rank-1 : MOVE.moves.rank+1;
+        
     }
     if(MOVE.piece === "N"){
         
@@ -332,17 +326,19 @@ chess.searchPiece = function(GAME, MOVE){
 
 chess.moveInGame = function(GAME, MOVE){
     // console.log(MOVE);
-    const moveFileIDX = utils.FILES[MOVE.moves.file]-1;
-    const moveRankIDX = 8-MOVE.moves.rank;
-    let fromFileIDX;
-    let fromRankIDX;
     if(!MOVE.from || !MOVE.from.rank){
         this.searchPiece(GAME, MOVE);
     }
 
+    const moveFileIDX = utils.FILES[MOVE.moves.file]-1;
+    const moveRankIDX = 8-MOVE.moves.rank;
+    let fromFileIDX;
+    let fromRankIDX;
+
     MOVE.piece = GAME.nextPlayer === "w" ? MOVE.piece.toUpperCase() : MOVE.piece.toLowerCase();
-    console.log(MOVE);
+    // console.log(MOVE);
     fromFileIDX = utils.FILES[MOVE.from.file]-1;
+
     if(MOVE.from.rank){
         fromRankIDX = 8-MOVE.from.rank;
         GAME.table[fromFileIDX][fromRankIDX] = "e";
@@ -350,6 +346,11 @@ chess.moveInGame = function(GAME, MOVE){
     else{
         GAME.table[fromFileIDX][GAME.table[fromFileIDX].indexOf(MOVE.piece)] = "e";
     }
+
+    if(MOVE.enPassant){
+        GAME.table[moveFileIDX][moveRankIDX-1] = "e"; 
+    }
+
     GAME.table[moveFileIDX][moveRankIDX] = MOVE.piece;
 
     GAME.nextPlayer = GAME.nextPlayer === "w" ? "b" : "w";
