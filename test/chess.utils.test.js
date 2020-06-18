@@ -8,7 +8,8 @@ describe('utils',()=>{
     
 describe("printBoard(GAME)", ()=>{
     it("prints Board",()=>{
-        const controlString = "r n b q k b n r \np p p p p p p p \n                \n                \n\
+        const controlString = 
+"r n b q k b n r \np p p p p p p p \n                \n                \n\
                 \n                \nP P P P P P P P \nR N B Q K B N R "
         const boardString = utils.printBoard(chess.newGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
         assert.equal(boardString,controlString);
